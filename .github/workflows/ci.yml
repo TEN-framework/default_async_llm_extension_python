@@ -24,7 +24,7 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/ten-framework/ten_agent_build:0.2.3
+      image: ghcr.io/ten-framework/ten_agent_build:0.4.10
     steps:
       - uses: actions/checkout@v4
         with:
@@ -33,7 +33,7 @@ jobs:
 
       - name: Check ten dependencies
         run: |
-          tman install
+          tman install --standalone
 
       - name: Release
         if: startsWith(github.ref, 'refs/tags/')

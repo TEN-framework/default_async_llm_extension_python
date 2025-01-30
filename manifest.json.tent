@@ -6,7 +6,7 @@
     {
       "type": "system",
       "name": "ten_ai_base",
-      "version": "0.1"
+      "version": "0.2"
     }
   ],
   "package": {
@@ -14,7 +14,6 @@
       "manifest.json",
       "property.json",
       "requirements.txt",
-      "**.tent",
       "**.py",
       "README.md"
     ]

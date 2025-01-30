@@ -16,7 +16,10 @@
       "requirements.txt",
       "**.tent",
       "**.py",
-      "README.md"
+      "README.md",
+      "tests/**.py",
+      "tests/**.tent",
+      "tests/bin/start"
     ]
   },
   "api": {

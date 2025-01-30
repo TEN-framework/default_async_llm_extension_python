@@ -1,0 +1,7 @@
+{
+    "registry": {
+        "default": {
+            "index": "file:///tmp/ten/registry"
+        }
+    }
+}

@@ -1,0 +1,43 @@
+version: '3'
+
+tasks:
+  clean:
+    desc: clean up
+    cmds:
+      - find . -type d -name .pytest_cache -exec rm -rf {} \; || true
+      - find . -type d -name __pycache__ -exec rm -rf {} \; || true
+      - find . -type d -name .ten -exec rm -rf {} \; || true
+      - find . -name .coverage -exec rm -f {} \; || true
+
+  test:
+    desc: run tests
+    cmds:
+      - task: test-standalone
+      - task: test-template
+
+  test-standalone:
+    desc: run standalone testing
+    cmds:
+      - ./tests/bin/start {{ .CLI_ARGS }}
+
+  test-template:
+    desc: run testing with publish and create by template
+    cmds:
+      - tman -c tests/local-config.json --verbose publish
+      - rm -rf ./tmp && mkdir -p tmp/
+      - cd tmp && tman -c ../tests/local-config.json --verbose create extension hello_world --template default_async_llm_extension_python --template-data class_name_prefix=HelloWorld
+      - cd tmp/hello_world && tman install --standalone
+      - cd tmp/hello_world && tests/bin/start {{ .CLI_ARGS }}
+
+  install:
+    desc: install dependencies
+    cmds:
+      - tman install --standalone
+      - pip install -r requirements.txt
+
+  lint:
+    desc: lint codes
+    env:
+      PYTHONPATH: "{{.USER_WORKING_DIR}}/.ten/app/ten_packages/system/ten_runtime_python/lib:{{.USER_WORKING_DIR}}/.ten/app/ten_packages/system/ten_runtime_python/interface:{{.USER_WORKING_DIR}}/.ten/app/ten_packages/system/ten_ai_base/interface"
+    cmds:
+      -  pylint ./*.py {{ .CLI_ARGS }}
